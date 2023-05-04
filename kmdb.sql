@@ -5,7 +5,7 @@
 
 -- Requirements/assumptions
 --
--- - There will only be three movies in the database – the three films
+-- - There will only be three movies in the database – the three films
 --   that make up Christopher Nolan's Batman trilogy.
 -- - Movie data includes the movie title, year released, MPAA rating,
 --   and studio.
@@ -24,7 +24,6 @@
 -- - As a guest, I want to see the movies which a single actor has acted in.
 -- * Note: The "guest" user role represents the experience prior to logging-in
 --   to an app and typically does not have a corresponding database table.
-
 
 -- Deliverables
 -- 
@@ -104,14 +103,95 @@
 .headers off
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
--- TODO!
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS studios;
+DROP TABLE IF EXISTS movie_actors;
+DROP TABLE IF EXISTS actor_movies;
+DROP TABLE IF EXISTS movies_actors_studios;
 
 -- Create new tables, according to your domain model
--- TODO!
+CREATE TABLE movies (
+  movie_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  movie_title TEXT,
+  year_released INTEGER,
+  MPAA_rating TEXT,
+  studio TEXT
+);
+
+CREATE TABLE studios (
+studio_id INTEGER PRIMARY KEY AUTOINCREMENT,
+studio TEXT,
+movie_title TEXT
+);
+
+CREATE TABLE movie_actors (
+movie_id INTEGER PRIMARY KEY AUTOINCREMENT,
+movie_title TEXT,
+actor TEXT,
+character_role TEXT
+);
+
+CREATE TABLE actor_movies (
+actor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+actor TEXT,
+movie_title TEXT
+);
+
+CREATE TABLE movies_actors_studios (
+movie_id INTEGER PRIMARY KEY AUTOINCREMENT,
+actor_id INTEGER,
+studio_id INTEGER
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
--- TODO!
+INSERT INTO movies (movie_title, year_released, MPAA_rating, studio)
+VALUES 
+('Batman Begins', 2005,'PG-13', 'Warner Bros.'),
+('The Dark Knight', 2008, 'PG-13', 'Warner Bros.'),
+('The Dark Knight Rises', 2012, 'PG-13', 'Warner Bros.');
+
+INSERT INTO movie_actors (movie_title, actor, character_role)
+VALUES 
+('Batman Begins', 'Christian Bale', 'Bruce Wayne'),
+('Batman Begins', 'Michael Caine', 'Alfred'),
+('Batman Begins', 'Liam Neeson', 'Ra's Al Ghul'),
+('Batman Begins', 'Katie Holmes', 'Rachel Dawes'),
+('Batman Begins', 'Gary Oldman', 'Commissioner Gordon'),
+('The Dark Knight', 'Christian Bale', 'Bruce Wayne'),
+('The Dark Knight', 'Heath Ledger', 'Joker'),
+('The Dark Knight', 'Aaron Eckhart', 'Harvey Dent'),
+('The Dark Knight', 'Michael Caine', 'Alfred'),
+('The Dark Knight', 'Maggie Gyllenhaal', 'Rachel Dawes'),
+('The Dark Knight Rises', 'Christian Bale', 'Bruce Wayne'),
+('The Dark Knight Rises', 'Gary Oldman', 'Commissioner Gordon'),
+('The Dark Knight Rises', 'Tom Hardy', 'Bane'),
+('The Dark Knight Rises', 'Joseph Gordon-Levitt', 'John Blake'),
+('The Dark Knight Rises', 'Anne Hathaway', 'Selina Kyle');
+
+INSERT INT0 actor_movies (actor, movie_title)
+VALUES 
+('Christian Bale', 'Batman Begins'),
+('Michael Caine', 'Batman Begins'),
+('Liam Neeson', 'Batman Begins'),
+('Katie Holmes', 'Batman Begins'),
+('Gary Oldman', 'Batman Begins'),
+('Christian Bale', 'The Dark Knight'),
+('Heath Ledger', 'The Dark Knight'),
+('Aaron Eckhart', 'The Dark Knight'),
+('Michael Caine', 'The Dark Knight'),
+('Maggie Gyllenhaal', 'The Dark Knight'),
+('Christian Bale', 'The Dark Knight Rises'),
+('Gary Oldman', 'The Dark Knight Rises'),
+('Tom Hardy', 'The Dark Knight Rises'),
+('Joseph Gordon-Levitt', 'The Dark Knight Rises'),
+('Anne Hathaway', 'The Dark Knight Rises');
+
+INSERT INT0 studios (studio, movie_title)
+VALUES 
+('Warner Bros.', 'Batman Begins'),
+('Warner Bros.', 'The Dark Knight'),
+('Warner Bros.', 'The Dark Knight Rises');
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -119,7 +199,7 @@
 .print ""
 
 -- The SQL statement for the movies output
--- TODO!
+SELECT movie_title, year_released, MPAA_rating, studio FROM movies
 
 -- Prints a header for the cast output
 .print ""
@@ -127,6 +207,8 @@
 .print "========"
 .print ""
 
-
 -- The SQL statement for the cast output
--- TODO!
+SELECT movie_title, actor, character_role FROM movie_actors
+
+
+
